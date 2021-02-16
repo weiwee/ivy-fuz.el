@@ -127,18 +127,18 @@ Set to nil will sort all matched candidates."
 
 ;;;###autoload
 (defun ivy-fuz-highlight-fn (str)
-  "Put highlight face on matched positions of the STR."
-  (let* ((pat (ivy--remove-prefix "^" ivy-text))
-         (indices (ivy-fuz--fuzzy-indices pat str))
-         (counter 0)
-         (last-pos -2))
-    (dolist (pos indices)
-      (unless (= pos (1+ last-pos))
-        (cl-incf counter))
-      (setq last-pos pos)
-      (ivy-add-face-text-property pos (1+ pos)
-                                  (ivy--minibuffer-face counter) str))
-    str))
+    "Put highlight face on matched positions of the STR."
+    (let* ((pat (string-remove-prefix "^" ivy-text))
+           (indices (ivy-fuz--fuzzy-indices pat str))
+           (counter 0)
+           (last-pos -2))
+      (dolist (pos indices)
+        (unless (= pos (1+ last-pos))
+          (cl-incf counter))
+        (setq last-pos pos)
+        (add-face-text-property pos (1+ pos)
+                                (ivy--minibuffer-face counter) nil str))
+      str))
 
 (provide 'ivy-fuz)
 
